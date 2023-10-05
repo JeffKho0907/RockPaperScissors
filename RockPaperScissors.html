@@ -1,0 +1,172 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel = "stylesheet" href="style.css"/>
+    
+    <title>RockPaperScissors</title>
+</head>
+<body>
+    <div class ="header">
+       <h1>Rock, Paper, Scissors?</h1> 
+    </div>
+    <div class = " main">
+        <div id ="scoreBoard">
+            <ul>
+                <li>User:<span class="userScore">0</span></li>
+                <li>Comp:<span class="compScore">0</span></li>
+            </ul>
+        </div>
+        <button class="reset">Reset</button>
+        <div class = "selection">
+            <div id = "userChoice">
+                <div class="cards rock"><img class ="rock" src="rock.jpg" alt="rock"></div>
+                <div class="cards paper"><img class ="paper" src="paper.jpg" alt="paper"></div>
+                <div class="cards scissors"><img class ="scissors" src="scissors.jpg" alt="scissors"></div>
+            </div>
+            <div class ="result">
+                <p class="compSelect"></p>
+                <p class="outCome"></p>
+            </div>
+        </div>
+        
+
+    </div>
+
+
+    <script>
+        function getComputerChoice() {
+            let x = Math.floor(Math.random()*3);
+
+            if (x === 0) {
+                x = 'paper';
+            } else if (x ===1) {
+                x = 'rock';
+            } else if (x ===2) {
+                x = 'scissors';
+            }
+
+            
+            return x;
+        }
+        let userScore = document.querySelector('.userScore');
+        let compScore = document.querySelector('.compScore');
+        let compSelect = document.querySelector('.compSelect');
+        let outCome = document.querySelector('.outCome');
+        let reset = document.querySelector('.reset');
+        let compChoice = getComputerChoice();
+        
+       
+        function removeTransition(e){
+            if(e.propertyName !== 'transform') return;
+            this.classList.remove('enlarge');
+        }
+
+        reset.addEventListener('click', resetPoints);
+        
+        
+        function resetPoints() {
+            compSelect.textContent = '';
+            outCome.textContent = '';
+            userScore.textContent = `${userPoint =0}`;
+            compScore.textContent =`${compPoint =0}`;
+        };
+
+        let userPoint =0;
+        let compPoint =0;
+        
+        let cards = document.querySelectorAll('.cards');
+        cards.forEach((card) => {
+            card.addEventListener('click', ()=> {
+                card.classList.add('enlarge');
+            })
+            card.addEventListener('click', ()=> {
+                if(compPoint ==5) {
+                    alert('stop trying ');
+                }
+            })
+            card.addEventListener('transitionend', removeTransition);
+            card.addEventListener('click', ()=> {
+                
+                let [first,second] = card.className.split(' ');
+
+                if(compPoint == 5){
+                    alert('The COmputer took over your dog, you lost');
+                    return;
+                } else if(userPoint==5) {
+                    alert('You won, you received a dog coint');
+                    return;
+                }
+                let compChoice = getComputerChoice();
+                if ((second=='rock' && compChoice =='scissors') || (second== 'scissors' && compChoice == 'paper' )|| (second == 'paper' && compChoice =='rock')){
+                userPoint++;
+                compSelect.textContent =`Computer played ${compChoice}`;
+                outCome.textContent = 'You Win';;
+                userScore.textContent = `${userPoint}`;
+                compScore.textContent =`${compPoint}`;
+                
+                
+                }else if((second=='rock' && compChoice =='rock') || (second == 'scissors' && compChoice == 'scissors' )|| (second == 'paper' && compChoice =='paper')) {
+                outCome.textContent = 'Tie Round'
+                compSelect.textContent = `Computer played ${compChoice}`;    
+                
+                
+                
+                } else if((second=='scissors' && compChoice =='rock') || (second== 'paper' && compChoice == 'scissors' )|| (second == 'rock' && compChoice =='paper')) {
+                compPoint++;
+                compSelect.textContent =`Computer played ${compChoice}`;
+                outCome.textContent = 'You Lose';
+                userScore.textContent = `${userPoint}`;
+                compScore.textContent =`${compPoint}`;
+                
+                
+            
+            };
+
+            });
+            
+            
+        });
+
+        
+        
+
+
+       
+        /*let compChoice = getComputerChoice();
+        let cards = document.querySelectorAll('.cards');
+        console.log(compChoice);
+        cards.forEach((card)=> {
+            card.addEventListener('click', ()=> {
+                let [first,second] = card.className.split(' ');
+                let result;
+                console.log(second);
+                if ((second=='rock' && compChoice =='scissors') || (second== 'scissors' && compChoice == 'paper' )|| (second == 'paper' && compChoice =='rock')){
+                    console.log('User win');
+                    result = 'win'
+                    return result;
+                }else if((second=='rock' && compChoice =='rock') || (second == 'scissors' && compChoice == 'scissors' )|| (second == 'paper' && compChoice =='paper')) {
+                    console.log('Tie Round');
+                    result ='lose'
+                    return result;
+                } else if((second=='scissors' && compChoice =='rock') || (second== 'paper' && compChoice == 'scissors' )|| (second == 'rock' && compChoice =='paper')) {
+                    console.log('Computer Win');
+                    result ='tie'
+                    return result;
+                };
+                if(result== 'win') {
+                    console.log('You win this round')
+                } else if(result =='lose') {
+                    console.log('Computer wins this round')
+                } else if(result =='tie') {
+                    console.log('this is a tie round')
+                };
+            });
+            
+        });*/
+        
+    </script>
+  
+</body>
+</html>
